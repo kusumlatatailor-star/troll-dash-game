@@ -22,7 +22,6 @@ jobs:
           cp -r "$ROOT_DIR"/. .
           rm -rf project_src
           
-          # Exact Gradle version detect karein
           PROP_FILE=$(find . -name "gradle-wrapper.properties" | head -n 1)
           if [ -f "$PROP_FILE" ]; then
             G_VER=$(grep -oE 'gradle-[0-9]+\.[0-9]+(\.[0-9]+)?' "$PROP_FILE" | head -n 1 | sed 's/gradle-//')
@@ -39,8 +38,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Accept Android SDK Licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Setup Matching Gradle
         uses: gradle/actions/setup-gradle@v4
